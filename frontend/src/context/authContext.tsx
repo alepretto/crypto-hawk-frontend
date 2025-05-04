@@ -57,7 +57,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
             await axios.post('/api/users/login', { email, password });
 
             const { data } = await axios.get('/api/users/me')
-            console.log('mostra o resultado', data);
+            // console.log('mostra o resultado', data);
             setUser(data.user);
             router.push('/robo');
             

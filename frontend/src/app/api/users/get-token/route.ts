@@ -1,13 +1,12 @@
+
 import { NextResponse, NextRequest } from "next/server";
 
 import { authenticatedRequest } from "@/lib/apiUtils";
 
-
 export async function GET(req: NextRequest) {
-
-
+    
     const result = await authenticatedRequest('/users/me');
-
+    
     if ('error' in result) return NextResponse.json({ error: result.error }, { status: result.status })
     
     
@@ -18,17 +17,17 @@ export async function GET(req: NextRequest) {
     }
     
 
-    const res = NextResponse.json({ user: result.data });
+    const res = NextResponse.json({ token });
     
     if (result.refreshed && result.token) {
         res.cookies.set("auth-token", result.token, {
-          httpOnly: true,
-          secure: true,
-          path: "/",
-          sameSite: "strict",
-          maxAge: 60 * 60 * 24,
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24,
         });
-      }
+    }
     
-      return res;
+    return res;
 }
