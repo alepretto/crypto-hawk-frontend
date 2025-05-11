@@ -88,17 +88,15 @@ export default function CandleChartComponent({ symbol, interval, market, environ
 
 
     return (
-        <div className="my-5 w-full h-[400px] md:h-[500px] lg:h-[600px] bg-zinc-900 rounded-lg overflow-hidden relative flex items-center justify-center">
-
+        <div className="my-5 w-full h-[400px] md:h-[500px] lg:h-[600px] bg-zinc-900 rounded-lg overflow-hidden relative">
             {loading ? (
-                <div className="flex flex-col items-center justify-center gap-2">
-                    <Loader className="h-6 w-6 animate-spin text-gray-300" />
-                    <span className="text-sm text-gray-400">Carregando dados...</span>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10 bg-zinc-900">
+                <Loader className="h-6 w-6 animate-spin text-gray-300" />
+                <span className="text-sm text-gray-400">Carregando dados...</span>
                 </div>
             ) : (
                 <CandleChart candles={candles} />
             )}
-            
         </div>
     )
 }

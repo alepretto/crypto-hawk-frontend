@@ -1,8 +1,8 @@
 import { UTCTimestamp , createChart, IChartApi, CandlestickSeries } from "lightweight-charts";
 import { useEffect, useRef } from "react";
 
-
 import { CandleChartProps } from "../../types";
+import { useSidebar } from "@/context/sidebarContext";
 
 
 
@@ -11,7 +11,9 @@ export default function CandleChart({ candles }: CandleChartProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const chartRef = useRef<IChartApi | null>(null);
     const seriesRef = useRef<ReturnType<IChartApi['addSeries']> | null>(null);
+    const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
+    const { isCollapsed } = useSidebar();
 
     const formattedCandles = candles.map(c => ({
         time: c.open_time as UTCTimestamp,
@@ -23,12 +25,11 @@ export default function CandleChart({ candles }: CandleChartProps) {
     }));
 
     useEffect(() => {
-
         if (!containerRef.current || !candles.length) return;
 
         const chart = createChart(containerRef.current, {
             width: containerRef.current.clientWidth,
-            height: 600,
+            height: containerRef.current.clientHeight,
             layout: {
                 background: { color: '#1e1e1e'},
                 textColor: '#d1d5db'
@@ -61,34 +62,12 @@ export default function CandleChart({ candles }: CandleChartProps) {
         });
         seriesRef.current = series;
         series.setData(formattedCandles);
+        
+      
         return () => chart.remove();
 
-    }, []);
 
-
-    useEffect(() => {
-        const container = containerRef.current;
-        const chart = chartRef.current;
-      
-        if (!container || !chart) return;
-      
-        const resize = () => {
-          chart.resize(container.clientWidth, container.clientHeight);
-        };
-      
-        // ResizeObserver: mudanças no container
-        const observer = new ResizeObserver(resize);
-        observer.observe(container);
-      
-        // window resize: DevTools, redimensionamento de janela
-        window.addEventListener('resize', resize);
-      
-        return () => {
-          observer.disconnect();
-          window.removeEventListener('resize', resize);
-        };
     }, []);
-      
 
 
     useEffect(() => {
@@ -104,7 +83,21 @@ export default function CandleChart({ candles }: CandleChartProps) {
         }));
     
         seriesRef.current.setData(formatted);
-      }, [candles]);
+    }, [candles]);
+
+    useEffect(() => {
+        const container = containerRef.current;
+      
+        // Dá tempo da sidebar terminar de abrir antes de redimensionar
+        const timeout = setTimeout(() => {
+          if (container && chartRef.current) {
+            chartRef.current.resize(container.clientWidth, container.clientHeight);
+          }
+        }, 310); // um pouco mais que a transição
+      
+        return () => clearTimeout(timeout);
+    }, [isCollapsed]);
+
 
 
     return (

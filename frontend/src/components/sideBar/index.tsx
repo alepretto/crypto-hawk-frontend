@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { useSidebar } from '@/context/sidebarContext';
+
 interface SidebarItem {
     icon: React.ReactNode;
     label: string;
@@ -19,25 +21,9 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ user, items }: SidebarProps) => {
-    const [isCollapsed, setIsCollapsed] = useState(true);
     
-    useEffect(() => {
-        const saved = localStorage.getItem('sidebarCollapsed');
-
-        if (saved !== null) {
-            setIsCollapsed(saved === 'true');
-        }
-
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('sidebarCollapsed', String(isCollapsed));
-    }, [isCollapsed]);
-
-    const toggleSidebar = () => {
-        setIsCollapsed(!isCollapsed);
-    };
-
+    const { isCollapsed, toggle } = useSidebar();
+    
 
     return (
         <div className={`h-screen bg-gray-800 text-white flex flex-col transition-all duration-300 ${isCollapsed ? "w-15" : "w-50"}`}>
@@ -46,7 +32,7 @@ export const Sidebar = ({ user, items }: SidebarProps) => {
                 
                 <span className={`${isCollapsed ? "hidden" : "block"} font-bold`}>Olá {user.username}</span>
                 
-                <button onClick={toggleSidebar} className='cursor-pointer'>
+                <button onClick={toggle} className='cursor-pointer'>
                     {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
                 </button>
 
