@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://localhost:8000/binance/ws/mini-ticker'); // "wss" para HTTPS, "ws" para HTTP
+const socket = new WebSocket('ws://localhost:8000/binance/ws/klines/BTCUSDT/1m?market=futures'); // "wss" para HTTPS, "ws" para HTTP
 
 // ws://localhost:8000/binance/ws/klines/BTCUSDT/30m?market=spot
 

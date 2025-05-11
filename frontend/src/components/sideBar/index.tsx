@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
-import { ChevronLeft, ChevronRight, LayoutDashboard, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SidebarItem {
     icon: React.ReactNode;

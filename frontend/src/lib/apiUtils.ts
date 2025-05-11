@@ -15,19 +15,36 @@ export async function getRefreshedToken(refreshToken: string) {
 
 
 
-export async function authenticatedRequest(endpoint: string, method: "get" | "post" = "get") {
+export async function authenticatedRequest(endpoint: string, method: "get" | "post" = "get", params = {}, data = {}) {
     
     const cookieStore = cookies();
     let token = (await cookieStore).get('auth-token')?.value;
 
     if (!token) return { error: 'Not Authorized', status: 401 }
 
-    let response = await cryptoHawkApi[method](endpoint, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }).catch(err => err.response);
+    let response;
 
+    if (method === 'get') {
+        response = await cryptoHawkApi[method](endpoint, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params
+        }).catch(err => err.response);
+    
+    } else {
+    
+        response = await cryptoHawkApi[method](endpoint, data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                params
+            }
+        ).catch(err => err.response);
+
+    }
+    
     if (response.status === 200) return { data: response.data, token };
 
     if (response.status === 401) {
@@ -37,11 +54,26 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
 
         token = await getRefreshedToken(refreshToken);
 
-        response = await cryptoHawkApi[method](endpoint, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).catch(err => err.response);
+        if (method === 'get') {
+            response = await cryptoHawkApi[method](endpoint, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                params
+            }).catch(err => err.response);
+        
+        } else {
+        
+            response = await cryptoHawkApi[method](endpoint, data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                    params
+                }
+            ).catch(err => err.response);
+    
+        }
 
         return {
             data: response.data,
@@ -50,6 +82,6 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
         };
     }
 
-    return { error: 'Unexpected Error', status: 500}
+    return { error: response, status: response.status}
 
 }

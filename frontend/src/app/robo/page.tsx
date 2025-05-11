@@ -1,45 +1,69 @@
 'use client';
 
 import { useState } from "react";
-import useWebSocket from "react-use-websocket";
+
+import { SelectInput } from "./components/selectInput";
+
+import { CandleChartType } from "./types";
+
+import CandleChartComponent from "./components/candleChart";
 
 
-interface MiniTickerMessage {
-    miniTicker?: any[];
-}
+
 
 export default function RoboPage() {
   
+    const [symbol, setSymbol] = useState('BTCUSDT');
+    const [symbolOptions, setSymbolOptions] = useState(['BTCUSDT', 'ETHUSDT']);
 
-    const [miniTickerState, setMiniTickerState] = useState<any[]>([]);
+
+    const [market, setMarket] = useState('futures');
+    const [marketOptions, setMarketOptions] = useState(['futures', 'spot']);
+
+    const [environment, setEnvironment] = useState('testnet');
+    const [environmentOptions, setEnvironmentOptions] = useState(['mainnet', 'testnet'])
+
+    const [interval, setInterval] = useState('5m');
+    const [intervalOptions, setIntervalOptions] = useState(['1m', '5m', '15m', '1h', '1d']);
+
+    
+    const [candles, setCandles] = useState<CandleChartType[]>([]);
+    const [loading, setLoading] = useState(true);
 
 
-    const { lastJsonMessage } = useWebSocket<MiniTickerMessage>(`${process.env.NEXT_PUBLIC_API_WS_URL}/mini-ticker`, {
-        onOpen: () => console.log('Connected to App WS Server'),
-        onMessage: () => {
-            if (lastJsonMessage && lastJsonMessage.miniTicker) {
-
-                const newList = lastJsonMessage.miniTicker.filter(item => item.s === 'BTCUSDT')
-                setMiniTickerState(newList)
-            }
-        },
-        queryParams: {},
-        onError: (err) => console.error(err),
-        shouldReconnect: (closeEvent) => true,
-        reconnectInterval: 3000
-    });
 
     return (
         <div>
-            Olá
+
+            <div className="border border-gray-300 p-4 rounded-lg shadow-sm flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+            
+                {/* Título */}
+                <div className="w-full md:w-1/2">
+                    <h1 className="text-lg font-bold text-gray-800 dark:text-white">{symbol}</h1>
+                </div>
+
+                {/* Inputs */}
+                <div className="w-full md:w-1/2 flex flex-wrap justify-end gap-4">
+                    <SelectInput id="symbol" onChange={setSymbol} value={symbol} options={symbolOptions} />
+                    <SelectInput id="interval" onChange={setInterval} value={interval} options={intervalOptions} />
+                    <SelectInput id="market" onChange={setMarket} value={market} options={marketOptions} />
+                    <SelectInput id="environment" onChange={setEnvironment} value={environment} options={environmentOptions} />
+                </div>
+
+            </div>
+
 
             <div>
-                {miniTickerState.map((ticker, index) => 
-                    <div key={index}>
-                        <div>{ticker.s} - {ticker.c}</div>
-                    </div>
-                )}
-
+                <CandleChartComponent 
+                    candles={candles}
+                    symbol={symbol}
+                    interval={interval}
+                    market={market}
+                    environment={environment}
+                    loading={loading}
+                    setLoading={setLoading}
+                    setCandles={setCandles}
+                />
             </div>
         </div>
     );

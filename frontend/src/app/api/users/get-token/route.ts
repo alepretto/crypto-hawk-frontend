@@ -4,17 +4,17 @@ import { NextResponse, NextRequest } from "next/server";
 import { authenticatedRequest } from "@/lib/apiUtils";
 
 export async function GET(req: NextRequest) {
-    
-    const result = await authenticatedRequest('/users/me');
-    
-    if ('error' in result) return NextResponse.json({ error: result.error }, { status: result.status })
-    
+       
     
     const token = req.cookies.get('auth-token')?.value;
 
     if (!token) {
         return NextResponse.json({error: 'Não Autorizado'}, { status: 401} );
     }
+
+    const result = await authenticatedRequest('/users/me');
+    
+    if ('error' in result) return NextResponse.json({ error: result.error }, { status: result.status })
     
 
     const res = NextResponse.json({ token });
