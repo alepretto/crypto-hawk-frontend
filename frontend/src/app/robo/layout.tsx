@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/sideBar';
 import { useAuth } from '@/context/authContext';
 import { ReactNode } from 'react';
 
-import { Bot, LayoutDashboard, LogOut } from "lucide-react";
+import { Bot, LayoutDashboard, LogOut, Settings } from "lucide-react";
 
 import { SidebarProvider } from '@/context/sidebarContext';
 
@@ -22,6 +22,11 @@ export default function RoboLayout({ children }: { children: ReactNode}) {
             icon: <LayoutDashboard size={20} />,
             label: 'Dashboard',
             href: '/robo/dashboard'
+        },
+        {
+            icon: <Settings size={20} />,
+            label: 'Settings',
+            href: '/robo/settings'
         },
         {
             icon: <LogOut size={20} />,

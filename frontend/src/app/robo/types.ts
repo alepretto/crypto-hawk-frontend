@@ -15,6 +15,14 @@ export interface SymbolAnalysisType {
 }
 
 
+export interface CreateOrderFormsType {
+    symbol: string;
+    interval: string;
+    market: string;
+    environment: string;
+}
+
+
 export interface CandleChartType {
     open_time: number;
     close_time: number;

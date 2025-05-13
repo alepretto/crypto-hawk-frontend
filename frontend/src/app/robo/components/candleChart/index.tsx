@@ -1,3 +1,5 @@
+'use client'
+
 import axios from "axios";
 
 import { useEffect } from "react";
@@ -40,6 +42,7 @@ export default function CandleChartComponent({ symbol, interval, market, environ
 
     useEffect(() => {
 
+        if (!symbol || !interval || !market || !environment) return
         loadCandles();
 
     }, [symbol, interval, market, environment]);
@@ -78,7 +81,8 @@ export default function CandleChartComponent({ symbol, interval, market, environ
             }
         },
         queryParams: {
-            market
+            market,
+            environment
         },
         onError: (err) => console.error(err),
         shouldReconnect: (closeEvent) => true,
@@ -88,10 +92,10 @@ export default function CandleChartComponent({ symbol, interval, market, environ
 
 
     return (
-        <div className="my-5 w-full h-[400px] md:h-[500px] lg:h-[600px] bg-zinc-900 rounded-lg overflow-hidden relative">
+        <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] bg-zinc-900 rounded-lg overflow-hidden relative">
             {loading ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10 bg-zinc-900">
-                <Loader className="h-6 w-6 animate-spin text-gray-300" />
+                    <Loader className="h-6 w-6 animate-spin text-gray-300" />
                 <span className="text-sm text-gray-400">Carregando dados...</span>
                 </div>
             ) : (

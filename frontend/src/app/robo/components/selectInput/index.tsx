@@ -5,10 +5,11 @@ interface SelectItem {
     value: string;
     onChange: (value: string) => void;
     options: any[];
+    className?: string;
 }
 
 
-export const SelectInput = ({ id, value, onChange, options }: SelectItem) => {
+export const SelectInput = ({ id, value, onChange, options, className = ''}: SelectItem) => {
 
 
 
@@ -22,12 +23,12 @@ export const SelectInput = ({ id, value, onChange, options }: SelectItem) => {
                 id={id}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-200"
+                className={`p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-200 ${className}`}
             
             >
                 {
                     options.map((item, index) => (
-                        <option key={index} value={item} className="text-black">
+                        <option key={index} value={item} className="text-black text-sm">
                             {item}
                         </option>
                     ))
