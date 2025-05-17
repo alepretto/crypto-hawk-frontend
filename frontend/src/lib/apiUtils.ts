@@ -45,7 +45,7 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
 
     }
     
-    if (response.status === 200) return { data: response.data, token };
+    if (response.status === 200) return { data: response.data, token, status: response.status, };
 
     if (response.status === 401) {
         const refreshToken = (await cookieStore).get(`refresh-token`)?.value;
@@ -76,6 +76,7 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
         }
 
         return {
+            status: response.status,
             data: response.data,
             token,
             refreshed: true

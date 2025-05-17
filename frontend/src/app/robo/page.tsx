@@ -11,6 +11,8 @@ import { ChartControls } from './components/menuBot'
 import { TradeOrderForm } from "./components/order";
 
 
+import { Toaster } from "@/components/ui/sonner";
+
 
 
 interface AssestBalanceType {
@@ -91,7 +93,7 @@ export default function RoboPage() {
                     Dados em tempo real obtidos via API da Binance
                 </p>
             </div>
-
+            <Toaster />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 
                 <div className="md:col-span-3">

@@ -16,12 +16,15 @@ import { Switch } from "@/components/ui/switch"
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Toaster } from "@/components/ui/sonner"
+// import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
 
 
 import OrderBookPrice from "./orderBookPrices"
 import { AssestBalanceType } from '../../types'
 import AssetBalance from "./assetBalance"
+import axios from "axios"
+import Error from "next/error"
 
 const formSchema = z.object({
   asset: z.string().optional(),
@@ -117,25 +120,28 @@ export function TradeOrderForm( { symbol, market, environment, setBaseAsset, set
     }, [symbol, form]);
 
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
 
         const ordersParms = {
-            asset: values.asset,
+            symbol: values.asset,
             quantity: parseFloat(values.quantity), 
             price: values.price? parseFloat(values.price) : null, 
             stopLoss: values.stopLoss? parseFloat(values.stopLoss) : null, 
             takeProfit: values.takeProfit? parseFloat(values.takeProfit) : null,
             orderType: values.orderType,
-            orderSide
+            orderSide,
+            market,
+            environment
         }
 
-
-        console.log(ordersParms)
-        // Toaster({
-        //     containerAriaLabel: `ad`
-        // //   title: "Ordem enviada",
-        // //   description: `${orderSide === "buy" ? "Compra" : "Venda"} de ${values.quantity} ${values.asset}`,
-        // })
+        try {
+            const { data } = await axios.post(`/api/binance/orders`, ordersParms);
+            toast('Ordem Executada!')
+        } catch (error: any) {
+            
+            const msgError = error?.response?.data?.msg?.message ? error.response.data.msg.message: ``
+            toast(msgError)
+        }
     }
 
     return (
