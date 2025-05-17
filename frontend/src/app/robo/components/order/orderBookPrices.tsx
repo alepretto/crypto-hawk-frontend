@@ -5,11 +5,10 @@ import useWebSocket from "react-use-websocket";
 
 
 interface OrderBookPriceType{
+    bestPriceOn: boolean;
     symbol: string;
     market: string;
     environment: string;
-    bestBidPrice: number;
-    bestAskPrice: number;
     setBestBidPrice: (valor: number) => void;
     setBestAskPrice: (valor: number) => void;
 }
@@ -26,10 +25,10 @@ interface OrderBookMessage {
 }
 
 
-export default function OrderBookPrice({ symbol, market, environment, bestAskPrice, bestBidPrice, setBestAskPrice, setBestBidPrice }: OrderBookPriceType) {
+export default function OrderBookPrice({ bestPriceOn, symbol, market, environment, setBestAskPrice, setBestBidPrice }: OrderBookPriceType) {
 
 
-    const socketUrl = !symbol || !market ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/order-book/${symbol}`
+    const socketUrl = !bestPriceOn || !symbol || !market ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/order-book/${symbol}`
 
     const { lastJsonMessage } = useWebSocket<OrderBookMessage>(socketUrl, {
         queryParams: {
@@ -52,35 +51,5 @@ export default function OrderBookPrice({ symbol, market, environment, bestAskPri
     })
 
 
-    return (
-        <div className="flex flex-col justify-around space-y-1 text-right">
-            
-            <label className="block text-sm font-medium text-gray-700">Mark Price</label>
-
-            <div className="flex items-center justify-around">
-                <span className="text-green-600 font-bold">Bid: </span>
-                <span className="text-green-500 font-semibold">
-                    U$ {
-                        bestBidPrice ? bestBidPrice.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 6,
-                        }) : '-'
-                        }
-                </span>
-            </div>
-
-            <div className="flex items-center justify-around">
-                <span className="font-bold text-red-600">Ask: </span>
-                <span className="text-red-400 font-semibold">
-                    U$ {
-                        bestAskPrice ? bestAskPrice.toLocaleString('pt-BR', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 6,
-                        }) : '-'
-                    }
-                </span>
-            </div>
-
-        </div>
-    );
+    return null;
 }

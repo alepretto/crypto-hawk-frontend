@@ -2,21 +2,32 @@
 
 import { useEffect, useState } from "react";
 
-import { SelectInput } from "./components/selectInput";
 
 import { CandleChartType } from "./types";
 
 import CandleChartComponent from "./components/candleChart";
-import CreateOrderComponent from "./components/order";
+
+import { ChartControls } from './components/menuBot'
+import { TradeOrderForm } from "./components/order";
 
 
 
+
+interface AssestBalanceType {
+    asset: string;
+    balance: number;
+}
 
 
 export default function RoboPage() {
   
     const [symbol, setSymbol] = useState('');
     const [symbolOptions, setSymbolOptions] = useState(['BTCUSDT', 'ETHUSDT']);
+
+
+    const [baseAsset, setBaseAsset] = useState<AssestBalanceType | null>(null);
+    const [quoteAsset, setQuoteAsset] = useState<AssestBalanceType | null>(null);
+
 
 
     const [market, setMarket] = useState('');
@@ -52,54 +63,79 @@ export default function RoboPage() {
         if (market !== '') localStorage.setItem('marketDash', market);
         if (environment !== '') localStorage.setItem('environmentDash', environment);
         if (interval !== '') localStorage.setItem('intervalDash', interval);
+
     }, [symbol, market, environment, interval]);
 
 
 
     return (
-        <div>
+        <div className="space-y-4">
 
-            <div className="border border-gray-300 p-4 rounded-lg shadow-sm flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
-            
-                <div className="w-full md:w-1/2">
-                    <h1 className="text-lg font-bold text-gray-800 dark:text-white">
-                        {symbol}
-                    </h1>
+            <div className="">
+                <ChartControls 
+                    onSymbolChange={setSymbol}
+                    onEnvironmentChange={setEnvironment}
+                    onIntervalChange={setInterval}
+                    onMarketChange={setMarket}
+                />
+            </div>
+
+            <div className="mb-6">
+                <div className="flex items-center gap-2">
+                    {/* <TrendingUp className="w-5 h-5 text-green-600" /> */}
+                    <h2 className="text-xl font-bold text-foreground">
+                    {symbol} - {interval}
+                    </h2>
                 </div>
+                <p className="text-sm text-muted-foreground">
+                    Dados em tempo real obtidos via API da Binance
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                <div className="md:col-span-3">
+                    
+                    <CandleChartComponent 
+                        candles={candles}
+                        symbol={symbol}
+                        interval={interval}
+                        market={market}
+                        environment={environment}
+                        loading={loading}
+                        setLoading={setLoading}
+                        setCandles={setCandles}
+                    />
+                </div>
+
+                <div className="md:col-span-1">
+
+                    <TradeOrderForm  
+                        symbol={symbol}
+                        market={market}
+                        environment={environment}
+                        setBaseAsset={setBaseAsset}
+                        setQuoteAsset={setQuoteAsset}
+                        baseAsset={baseAsset}
+                        quoteAsset={quoteAsset}
+                    />
+
+                </div>
+
+            </div>
+
+            
+
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                 
 
-                <div className="w-full md:w-1/2 flex flex-wrap justify-end gap-4">
-                    <SelectInput id="symbol" onChange={setSymbol} value={symbol} options={symbolOptions} />
-                    <SelectInput id="interval" onChange={setInterval} value={interval} options={intervalOptions} />
-                    <SelectInput id="market" onChange={setMarket} value={market} options={marketOptions} />
-                    <SelectInput id="environment" onChange={setEnvironment} value={environment} options={environmentOptions} />
-                </div>
 
             </div>
 
-            <div className="py-5 mr-5 flex items-center justify-end">
-                <CreateOrderComponent 
-                    symbol={symbol}
-                    interval={interval}
-                    market={market}
-                    environment={environment}
-                />
-            </div>
 
 
-            <div>
-                <CandleChartComponent 
-                    candles={candles}
-                    symbol={symbol}
-                    interval={interval}
-                    market={market}
-                    environment={environment}
-                    loading={loading}
-                    setLoading={setLoading}
-                    setCandles={setCandles}
-                />
-            </div>
         </div>
     );
 }

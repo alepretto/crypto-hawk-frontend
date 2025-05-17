@@ -92,7 +92,8 @@ export default function CandleChartComponent({ symbol, interval, market, environ
 
 
     return (
-        <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] bg-zinc-900 rounded-lg overflow-hidden relative">
+        <div className="w-full h-[500px] md:h-[500px] lg:h-[650px] bg-zinc-900 rounded-lg overflow-hidden relative">
+            
             {loading ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10 bg-zinc-900">
                     <Loader className="h-6 w-6 animate-spin text-gray-300" />

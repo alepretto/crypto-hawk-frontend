@@ -43,7 +43,7 @@ export default function RoboLayout({ children }: { children: ReactNode}) {
                 items={menuItems} 
             />
         
-            <main className="flex-1 p-4 transition-all duration-300  overflow-hidden">
+            <main className="flex-1 p-4 transition-all duration-300 overflow-y-auto">
                     { children }
             </main>
         </SidebarProvider>

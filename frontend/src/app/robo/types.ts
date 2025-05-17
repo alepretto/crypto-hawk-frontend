@@ -62,3 +62,9 @@ export interface InfoMessage {
         candle: CandleInfo
     };
 }
+
+
+export interface AssestBalanceType {
+    asset: string;
+    balance: number;
+}
