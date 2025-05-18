@@ -51,7 +51,7 @@ export default function CandleChartComponent({ symbol, interval, market, environ
     const socketUrl = loading ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/klines/${symbol}/${interval}`;
 
     const { lastJsonMessage } = useWebSocket<InfoMessage>(socketUrl, {
-        onOpen: () => console.log('Connected to App WS Server'),
+        onOpen: () => console.log('Connected to Klines'),
         onMessage: () => {
             if (lastJsonMessage && lastJsonMessage.info) {
 

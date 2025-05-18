@@ -8,8 +8,9 @@ import { CandleChartType } from "./types";
 import CandleChartComponent from "./components/candleChart";
 
 import { ChartControls } from './components/menuBot'
-import { TradeOrderForm } from "./components/order";
-
+import { TradeOrderForm } from "./components/orderForm";
+import { OpenOrdersLog } from "./components/orderList";
+import { OpenPositionsLog } from "./components/positionsList";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -79,6 +80,10 @@ export default function RoboPage() {
                     onEnvironmentChange={setEnvironment}
                     onIntervalChange={setInterval}
                     onMarketChange={setMarket}
+                    symbol={symbol}
+                    interval={interval}
+                    market={market}
+                    environment={environment}
                 />
             </div>
 
@@ -129,9 +134,14 @@ export default function RoboPage() {
             
 
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                
+                <OpenPositionsLog />
+                <OpenOrdersLog
+                    symbol={symbol}
+                    market={market}
+                    environment={environment}
+                />
 
 
             </div>

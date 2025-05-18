@@ -15,7 +15,7 @@ export async function getRefreshedToken(refreshToken: string) {
 
 
 
-export async function authenticatedRequest(endpoint: string, method: "get" | "post" = "get", params = {}, data = {}) {
+export async function authenticatedRequest(endpoint: string, method: "get" | "post" | "delete" = "get", params = {}, data = {}) {
     
     const cookieStore = cookies();
     let token = (await cookieStore).get('auth-token')?.value;
@@ -24,7 +24,7 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
 
     let response;
 
-    if (method === 'get') {
+    if (method !== 'post') {
         response = await cryptoHawkApi[method](endpoint, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -54,7 +54,7 @@ export async function authenticatedRequest(endpoint: string, method: "get" | "po
 
         token = await getRefreshedToken(refreshToken);
 
-        if (method === 'get') {
+        if (method !== 'post') {
             response = await cryptoHawkApi[method](endpoint, {
                 headers: {
                     Authorization: `Bearer ${token}`

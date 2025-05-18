@@ -64,7 +64,63 @@ export async function POST(req: NextRequest) {
     }
     
     return res;
-
-
 }
 
+
+export async function GET(req: NextRequest) {
+
+
+    const environment = req.nextUrl.searchParams.get('environment');
+    const market = req.nextUrl.searchParams.get('market');
+    const symbol = req.nextUrl.searchParams.get('symbol');
+
+
+    const url = `/binance/orders/${market}/open`
+    const result = await authenticatedRequest(url, 'get', {
+        environment,
+        symbol
+    });
+
+    const res = NextResponse.json({ orders: result.data }, { status: result.status});
+    
+    if (result.refreshed && result.token) {
+        res.cookies.set("auth-token", result.token, {
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24,
+        });
+    }
+    
+    return res;
+}
+
+export async function DELETE(req: NextRequest) {
+
+    const environment = req.nextUrl.searchParams.get('environment');
+    const market = req.nextUrl.searchParams.get('market');
+    const symbol = req.nextUrl.searchParams.get('symbol');
+    const orderId = req.nextUrl.searchParams.get('orderId');
+
+
+    const url = `/binance/orders/${market}/${orderId}`
+    const result = await authenticatedRequest(url, 'delete', {
+        environment,
+        symbol
+    });
+
+    const res = NextResponse.json({ orders: result.data }, { status: result.status});
+    
+    if (result.refreshed && result.token) {
+        res.cookies.set("auth-token", result.token, {
+            httpOnly: true,
+            secure: true,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24,
+        });
+    }
+    
+    return res;
+}

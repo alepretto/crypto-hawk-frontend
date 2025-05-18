@@ -15,8 +15,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-// import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 
 
@@ -24,7 +22,7 @@ import OrderBookPrice from "./orderBookPrices"
 import { AssestBalanceType } from '../../types'
 import AssetBalance from "./assetBalance"
 import axios from "axios"
-import Error from "next/error"
+
 
 const formSchema = z.object({
   asset: z.string().optional(),
@@ -55,7 +53,7 @@ interface FormFieldsType {
 export function TradeOrderForm( { symbol, market, environment, setBaseAsset, setQuoteAsset, baseAsset, quoteAsset}: FormFieldsType ) {
 
     const [orderSide, setOrderSide] = useState<"buy" | "sell">("buy");
-    const [advancedOptions, setAdvancedOptions] = useState(false);
+    const [advancedOptions, setAdvancedOptions] = useState(true);
     const [bestPrice, setBestPrice] = useState(true);
 
     const [bestBidPrice, setBestBidPrice] = useState<number | null>(null);
