@@ -3,6 +3,9 @@ import { createContext, useContext, useState, ReactNode, useEffect } from "react
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+import { toast } from "sonner";
+
+
 type User = {
     email: string;
     idUser: number;
@@ -61,8 +64,8 @@ export function AuthProvider({children}: {children: ReactNode}) {
             setUser(data.user);
             router.push('/robo');
             
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            toast(err.response?.data?.message || "Email ou senha inválidos.");
         }
     }
 

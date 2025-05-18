@@ -14,6 +14,7 @@ import { OpenPositionsLog } from "./components/positionsList";
 
 import { Toaster } from "@/components/ui/sonner";
 
+import Image from "next/image";
 
 
 interface AssestBalanceType {
@@ -74,6 +75,19 @@ export default function RoboPage() {
     return (
         <div className="space-y-4">
 
+            <Toaster position="top-right"/>
+
+
+            <div>
+                <Image
+                    src="/logo-transparante-2.png"
+                    alt="AlgoQuant Logo"
+                    width={400}
+                    height={30}
+                />
+            </div>
+
+
             <div className="">
                 <ChartControls 
                     onSymbolChange={setSymbol}
@@ -98,7 +112,6 @@ export default function RoboPage() {
                     Dados em tempo real obtidos via API da Binance
                 </p>
             </div>
-            <Toaster />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 
                 <div className="md:col-span-3">

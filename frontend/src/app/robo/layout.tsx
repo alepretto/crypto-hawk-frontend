@@ -1,6 +1,7 @@
 'use client';
 
-import { Sidebar } from '@/components/sideBar';
+import { Sidebar } from './components/sidebar';
+
 import { useAuth } from '@/context/authContext';
 import { ReactNode } from 'react';
 
@@ -14,23 +15,23 @@ export default function RoboLayout({ children }: { children: ReactNode}) {
 
     const menuItems = [
         {
-            icon: <Bot size={20} />,
-            label: 'Bot',
+            icon: Bot,
+            name: 'Bot',
             href: '/robo'
         },
         {
-            icon: <LayoutDashboard size={20} />,
-            label: 'Dashboard',
+            icon: LayoutDashboard,
+            name: 'Dashboard',
             href: '/robo/dashboard'
         },
         {
-            icon: <Settings size={20} />,
-            label: 'Settings',
+            icon: Settings,
+            name: 'Settings',
             href: '/robo/settings'
         },
         {
-            icon: <LogOut size={20} />,
-            label: 'Sair',
+            icon: LogOut,
+            name: 'Sair',
             onClick: logout
         }
     ];
