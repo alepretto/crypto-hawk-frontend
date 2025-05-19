@@ -78,13 +78,31 @@ export default function RoboPage() {
             <Toaster position="top-right"/>
 
 
-            <div>
-                <Image
-                    src="/logo-transparante-2.png"
-                    alt="AlgoQuant Logo"
-                    width={400}
-                    height={30}
-                />
+            <div className="flex justify-between items-start h-30 ">
+
+                <div className="flex h-full items-end">
+                    <div className="mb-6">
+                        <div className="flex items-center gap-2">
+                            {/* <TrendingUp className="w-5 h-5 text-green-600" /> */}
+                            <h1 className="text-3xl font-bold text-foreground">
+                                {symbol} - {interval}
+                            </h1>
+                        </div>
+                        <p className="text-mb text-muted-foreground">
+                            Dados em tempo real obtidos via API da Binance
+                        </p>
+                    </div>
+
+                </div>
+
+                <div className="flex items-center h-full">
+                    <Image
+                        src="/logo-transparante-2.png"
+                        alt="AlgoQuant Logo"
+                        width={300}
+                        height={30}
+                    />
+                </div>
             </div>
 
 
@@ -101,17 +119,7 @@ export default function RoboPage() {
                 />
             </div>
 
-            <div className="mb-6">
-                <div className="flex items-center gap-2">
-                    {/* <TrendingUp className="w-5 h-5 text-green-600" /> */}
-                    <h2 className="text-xl font-bold text-foreground">
-                    {symbol} - {interval}
-                    </h2>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                    Dados em tempo real obtidos via API da Binance
-                </p>
-            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 
                 <div className="md:col-span-3">

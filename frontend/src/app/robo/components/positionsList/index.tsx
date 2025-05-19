@@ -58,44 +58,45 @@ export function OpenPositionsLog() {
             <Table>
                 <TableHeader className="sticky top-0 bg-card">
                 <TableRow>
-                    <TableHead className="w-[100px]">Símbolo</TableHead>
-                    <TableHead>Tipo</TableHead>
-                    <TableHead>Qtd.</TableHead>
-                    <TableHead>Preço Entrada</TableHead>
-                    <TableHead>Preço Atual</TableHead>
-                    <TableHead>P&L</TableHead>
-                    <TableHead className="text-right">Ação</TableHead>
+                    <TableHead className="w-[100px] text-center font-bold">Símbolo</TableHead>
+                    <TableHead className="text-center font-bold">Tipo</TableHead>
+                    <TableHead className="text-center font-bold">Qtd.</TableHead>
+                    <TableHead className="text-center font-bold">Preço Entrada</TableHead>
+                    <TableHead className="text-center font-bold">Preço Atual</TableHead>
+                    <TableHead className="text-center font-bold">P&L</TableHead>
+                    <TableHead className="text-center font-bold">Ação</TableHead>
                 </TableRow>
                 </TableHeader>
                 <TableBody>
                 {positions.length > 0 ? (
                     positions.map((position) => (
                     <TableRow key={position.id}>
-                        <TableCell className="font-medium">{position.symbol}</TableCell>
-                        <TableCell>
-                        <span
-                            className={position.type === "long" ? "text-green-500 font-medium" : "text-red-500 font-medium"}
-                        >
-                            {position.type === "long" ? "Compra" : "Venda"}
-                        </span>
+                        <TableCell className="font-medium text-center">{position.symbol}</TableCell>
+                        <TableCell className="text-center">
+                            <span
+                                className={position.type.toLowerCase() === "buy" ? "text-green-400 font-bold" : "text-red-400 font-bold"}
+                            >
+                                {position?.type.toLowerCase() === "buy" ? "Compra" : "Venda"}
+                            </span>
                         </TableCell>
-                        <TableCell>{position.quantity}</TableCell>
-                        <TableCell>{position.entryPrice.toFixed(2)}</TableCell>
-                        <TableCell>{position.currentPrice.toFixed(2)}</TableCell>
-                        <TableCell>
-                        <span className={position.pnl >= 0 ? "text-green-500 font-medium" : "text-red-500 font-medium"}>
-                            {position.pnl.toFixed(2)} ({position.pnlPercentage.toFixed(2)}%)
-                        </span>
+                        <TableCell className="text-center">{position.quantity}</TableCell>
+                        <TableCell className="text-center">{position.entryPrice.toFixed(2)}</TableCell>
+                        <TableCell className="text-center">{position.currentPrice.toFixed(2)}</TableCell>
+                        <TableCell className="text-center">
+                            <span className={position.pnl >= 0 ? "text-green-400 font-bold font-bold" : "text-red-400 font-bold"}>
+                                {position.pnl.toFixed(2)} ({position.pnlPercentage.toFixed(2)}%)
+                            </span>
                         </TableCell>
-                        <TableCell className="text-right">
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => closePosition(position.id)}
-                            title="Fechar posição"
-                        >
-                            <X className="h-4 w-4" />
-                        </Button>
+                        <TableCell className="text-center">
+                            <Button
+                                className="cursor-pointer"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => closePosition(position.id)}
+                                title="Fechar posição"
+                            >
+                                <X className="h-4 w-4" />
+                            </Button>
                         </TableCell>
                     </TableRow>
                     ))
