@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from "react";
 import useWebSocket from "react-use-websocket";
 
 
@@ -28,7 +27,7 @@ interface OrderBookMessage {
 export default function OrderBookPrice({ bestPriceOn, symbol, market, environment, setBestAskPrice, setBestBidPrice }: OrderBookPriceType) {
 
 
-    const socketUrl = !bestPriceOn || !symbol || !market ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/order-book/${symbol}`
+    const socketUrl = !bestPriceOn || !symbol || !market ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/binance/order-book/${symbol}`
 
     const { lastJsonMessage } = useWebSocket<OrderBookMessage>(socketUrl, {
         queryParams: {

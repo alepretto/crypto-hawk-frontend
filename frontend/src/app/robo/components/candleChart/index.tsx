@@ -48,9 +48,15 @@ export default function CandleChartComponent({ symbol, interval, market, environ
     }, [symbol, interval, market, environment]);
 
 
-    const socketUrl = loading ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/klines/${symbol}/${interval}`;
+    const socketUrl = loading ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/binance/klines`;
 
     const { lastJsonMessage } = useWebSocket<InfoMessage>(socketUrl, {
+        queryParams: {
+            market,
+            environment,
+            symbol,
+            interval
+        },
         onOpen: () => console.log('Connected to Klines'),
         onMessage: () => {
             if (lastJsonMessage && lastJsonMessage.info) {
@@ -79,10 +85,6 @@ export default function CandleChartComponent({ symbol, interval, market, environ
                     }
                 })
             }
-        },
-        queryParams: {
-            market,
-            environment
         },
         onError: (err) => console.error(err),
         shouldReconnect: (closeEvent) => true,

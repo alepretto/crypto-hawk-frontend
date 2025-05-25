@@ -208,10 +208,22 @@ export function TradeOrderForm( { symbol, market, environment, setBaseAsset, set
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="market">Mercado</SelectItem>
-                                            <SelectItem value="limit">Limite</SelectItem>
-                                            <SelectItem value="stop">Stop</SelectItem>
-                                            <SelectItem value="stopLimit">Stop Limite</SelectItem>
+                                            {
+                                                market === 'spot' ? (
+                                                    <>
+                                                        <SelectItem value="market">Mercado</SelectItem>
+                                                        <SelectItem value="limit">Limite</SelectItem>
+                                                        <SelectItem value="stop">Stop</SelectItem>
+                                                        <SelectItem value="stopLimit">Stop Limite</SelectItem>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <SelectItem value="market">Mercado</SelectItem>
+                                                        <SelectItem value="limit">Limite</SelectItem>
+                                                    </>
+                                                )
+                                            }
+                                            
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />

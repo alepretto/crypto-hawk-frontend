@@ -26,16 +26,21 @@ export async function POST(req: NextRequest) {
         symbol : body.symbol,
         quantity : body.quantity,
         price : body.price,
-        stopLossPrice : body.stopLoss,
-        takeProfitPrice : body.takeProfit,
+        stopPrice : body.stopLoss,
+        profitPrice : body.takeProfit,
         type : body.orderType.toUpperCase(),
         side : body.orderSide.toUpperCase(),
+        strategy: 'Broker Front'
     }
     
     const market = body.market
     const environment = body.environment
 
-    const result = await authenticatedRequest(`/binance/orders/${market}`, 'post', 
+    const url = market === 'spot'
+        ? `/api/v1/binance/orders/${market}`
+        : `/api/v1/binance/positions`;
+
+    const result = await authenticatedRequest(url, 'post', 
         {environment},
         bodyOrder
     );
@@ -75,13 +80,16 @@ export async function GET(req: NextRequest) {
     const symbol = req.nextUrl.searchParams.get('symbol');
 
 
-    const url = `/binance/orders/${market}/open`
+    const url = `/api/v1/binance/orders/${market}/open`
     const result = await authenticatedRequest(url, 'get', {
         environment,
         symbol
     });
 
-    const res = NextResponse.json({ orders: result.data }, { status: result.status});
+    const res = result.status === 404 
+        ? NextResponse.json({ orders: [] }, { status: 200}) 
+        : NextResponse.json({ orders: result.data }, { status: result.status});
+
     
     if (result.refreshed && result.token) {
         res.cookies.set("auth-token", result.token, {
@@ -104,7 +112,7 @@ export async function DELETE(req: NextRequest) {
     const orderId = req.nextUrl.searchParams.get('orderId');
 
 
-    const url = `/binance/orders/${market}/${orderId}`
+    const url = `/api/v1/binance/orders/${market}/${orderId}`
     const result = await authenticatedRequest(url, 'delete', {
         environment,
         symbol

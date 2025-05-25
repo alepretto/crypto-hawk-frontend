@@ -6,7 +6,7 @@ import { authenticatedRequest } from "@/lib/apiUtils";
 export async function GET(req: NextRequest) {
 
 
-    const result = await authenticatedRequest('/users/me');
+    const result = await authenticatedRequest('/api/v1/users/me');
 
     if ('error' in result) return NextResponse.json({ error: result.error }, { status: result.status })
     

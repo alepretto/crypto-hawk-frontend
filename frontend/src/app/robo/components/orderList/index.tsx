@@ -20,8 +20,8 @@ interface OpenOrdersInput {
 
 export interface OrderType {
     id_user: number,
-    id_setting: number,
-    order_id: number,
+    environment: string,
+    id_order: number,
     symbol: string,
     status: string,
     type: string,
@@ -30,6 +30,7 @@ export interface OrderType {
     avg_price: number,
     orig_qty: number,
     executed_qty: number,
+    cum_quote: number,
     stop_price: number,
     time_in_force: string,
     reduce_only: boolean,
@@ -133,7 +134,7 @@ export function OpenOrdersLog( { symbol, environment, market }: OpenOrdersInput)
                         <TableBody>
                             {orders.length > 0 ? (
                                 orders.map((order) => (
-                                <TableRow key={order.order_id}>
+                                <TableRow key={order.id_order}>
                                     <TableCell className="font-medium text-center">{order.symbol}</TableCell>
                                     <TableCell className="capitalize text-center">{order.type}</TableCell>
                                     <TableCell className="text-center">
@@ -158,7 +159,7 @@ export function OpenOrdersLog( { symbol, environment, market }: OpenOrdersInput)
                                     </TableCell>
                                     <TableCell className="text-center">{formatDate(order.update_time)}</TableCell>
                                     <TableCell className="text-center">
-                                        <Button variant="ghost" size="icon" onClick={() => cancelOrder(order.order_id)} title="Cancelar ordem" className="cursor-pointer">
+                                        <Button variant="ghost" size="icon" onClick={() => cancelOrder(order.id_order)} title="Cancelar ordem" className="cursor-pointer">
                                             <X className="h-4 w-4" />
                                         </Button>
                                     </TableCell>

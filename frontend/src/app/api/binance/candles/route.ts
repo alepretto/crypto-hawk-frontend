@@ -7,7 +7,7 @@ import { authenticatedRequest } from "@/lib/apiUtils";
 export async function GET(req: NextRequest) {
 
     const params = Object.fromEntries(req.nextUrl.searchParams.entries());
-    const result = await authenticatedRequest('/binance/candles/sync/chart', 'post', params);
+    const result = await authenticatedRequest('/api/v1/binance/candles/sync/chart', 'post', params);
     
     const res = NextResponse.json({ candles: result.data });
     

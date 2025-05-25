@@ -8,36 +8,36 @@ import { X } from "lucide-react"
 
 // Sample data for open positions
 const samplePositions = [
-  {
-    id: "1",
-    symbol: "BTC/USDT",
-    type: "long",
-    entryPrice: 42350.75,
-    currentPrice: 42580.25,
-    quantity: 0.15,
-    pnl: 34.43,
-    pnlPercentage: 0.54,
-  },
-  {
-    id: "2",
-    symbol: "ETH/USDT",
-    type: "short",
-    entryPrice: 2250.5,
-    currentPrice: 2245.75,
-    quantity: 1.5,
-    pnl: 7.13,
-    pnlPercentage: 0.21,
-  },
-  {
-    id: "3",
-    symbol: "SOL/USDT",
-    type: "long",
-    entryPrice: 105.25,
-    currentPrice: 103.5,
-    quantity: 10,
-    pnl: -17.5,
-    pnlPercentage: -1.66,
-  },
+    {
+        id: "1",
+        symbol: "BTC/USDT",
+        type: "long",
+        entryPrice: 42350.75,
+        currentPrice: 42580.25,
+        quantity: 0.15,
+        pnl: 34.43,
+        pnlPercentage: 0.54,
+    },
+    {
+        id: "2",
+        symbol: "ETH/USDT",
+        type: "short",
+        entryPrice: 2250.5,
+        currentPrice: 2245.75,
+        quantity: 1.5,
+        pnl: 7.13,
+        pnlPercentage: 0.21,
+    },
+    {
+        id: "3",
+        symbol: "SOL/USDT",
+        type: "long",
+        entryPrice: 105.25,
+        currentPrice: 103.5,
+        quantity: 10,
+        pnl: -17.5,
+        pnlPercentage: -1.66,
+    },
 ]
 
 export function OpenPositionsLog() {
@@ -102,9 +102,9 @@ export function OpenPositionsLog() {
                     ))
                 ) : (
                     <TableRow>
-                    <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
-                        Nenhuma posição aberta
-                    </TableCell>
+                        <TableCell colSpan={7} className="text-center py-4 text-muted-foreground">
+                            Nenhuma posição aberta
+                        </TableCell>
                     </TableRow>
                 )}
                 </TableBody>

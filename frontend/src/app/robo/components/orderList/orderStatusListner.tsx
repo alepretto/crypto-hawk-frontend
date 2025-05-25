@@ -40,7 +40,7 @@ export default function OrderStatusListner( { market, environment, setOrders } :
     }, []);
 
     const socketUrl = token 
-        ? `${process.env.NEXT_PUBLIC_API_WS_URL}/user-socket` 
+        ? `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/crypto-hawk/user-socket` 
         : null;
 
     const { lastJsonMessage } = useWebSocket<UserSocketInfo>(socketUrl, {
@@ -53,23 +53,23 @@ export default function OrderStatusListner( { market, environment, setOrders } :
             onMessage: (e: MessageEvent<any>) => {
                 const parsed = JSON.parse(e.data);
 
-                if (parsed.event_type !== 'ORDER_TRADE_UPDATE') return;
+                // if (parsed.event_type !== 'ORDER_TRADE_UPDATE') return;
 
-                const newOrder = parsed?.event_info as OrderType;
-
-                if (!newOrder?.order_id) return;
+                console.log(parsed);
+                const newOrder = parsed as OrderType;
+                if (!newOrder?.id_order) return;
 
                 setOrders((prevOrders) => {
-                    const exists = prevOrders.some((order) => order.order_id === newOrder.order_id);
+                    const exists = prevOrders.some((order) => order.id_order === newOrder.id_order);
 
                     if (exists) {
                     // Atualiza a ordem existente
-                    return prevOrders.map((order) =>
-                        order.order_id === newOrder.order_id ? { ...order, ...newOrder } : order
-                    );
+                        return prevOrders.map((order) =>
+                            order.id_order === newOrder.id_order ? { ...order, ...newOrder } : order
+                        );
                     } else {
-                    // Adiciona nova ordem
-                    return [...prevOrders, newOrder];
+                        // Adiciona nova ordem
+                        return [...prevOrders, newOrder];
                     }
                 });
             },

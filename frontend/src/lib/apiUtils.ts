@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 export async function getRefreshedToken(refreshToken: string) {
 
-    const { data } = await cryptoHawkApi.post('/users/login/refresh', null, {
+    const { data } = await cryptoHawkApi.post('/api/v1/auth/login/refresh', null, {
         headers: {
             'refresh-token': refreshToken
         }

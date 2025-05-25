@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     
     const { email, password } = await req.json();
 
-    const { data } = await cryptoHawkApi.post('/users/login', { email, password });
+    const { data } = await cryptoHawkApi.post('/api/v1/auth/login', { email, password });
 
     const res = NextResponse.json({ success: true});
     
