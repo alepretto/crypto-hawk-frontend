@@ -9,6 +9,8 @@ import { X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import axios from "axios"
 
+import { formatDate } from "@/lib/utils"
+
 import OrderStatusListner from "./orderStatusListner"
 
 interface OpenOrdersInput {
@@ -89,17 +91,7 @@ export function OpenOrdersLog( { symbol, environment, market }: OpenOrdersInput)
         }
     }
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString)
-        return date.toLocaleString("pt-BR", {
-            timeZone: "America/Sao_Paulo",
-            day: "2-digit",
-            month: "2-digit",
-            // year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-        });
-    }
+    
 
     return (
         
@@ -159,7 +151,14 @@ export function OpenOrdersLog( { symbol, environment, market }: OpenOrdersInput)
                                     </TableCell>
                                     <TableCell className="text-center">{formatDate(order.update_time)}</TableCell>
                                     <TableCell className="text-center">
-                                        <Button variant="ghost" size="icon" onClick={() => cancelOrder(order.id_order)} title="Cancelar ordem" className="cursor-pointer">
+                                        <Button 
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => cancelOrder(order.id_order)}
+                                            disabled={order.status !== 'NEW'}
+                                            title="Cancelar ordem"
+                                            className="cursor-pointer"
+                                        >
                                             <X className="h-4 w-4" />
                                         </Button>
                                     </TableCell>

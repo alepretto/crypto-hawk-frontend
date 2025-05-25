@@ -1,75 +1,66 @@
-import { useState, useEffect } from "react";
-
 import axios from "axios";
+import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
+import { PositionType } from ".";
 
-import { OrderType } from ".";
-
-interface UserSocketInfo {
-
-    userSocker: any[];
-}
-
-
-interface OrderStatusListnerProps {
+interface PositionStatusListnerProps {
 
     market: string;
     environment: string;
-    setOrders: React.Dispatch<React.SetStateAction<OrderType[]>>;
+    setPositions: React.Dispatch<React.SetStateAction<PositionType[]>>;
 }
 
 
-export default function OrderStatusListner( { market, environment, setOrders } : OrderStatusListnerProps) {
+export default function PositionStatusListners({ market, environment, setPositions }: PositionStatusListnerProps ) {
+
 
     const [token, setToken] = useState('');
 
     const refreshToken = async () => {
 
         try {
-            
             const { data } = await axios.get('/api/users/get-token');
             setToken(data.token);
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
-
     }
-    
+
     useEffect(() => {
         refreshToken();
     }, []);
 
-    const socketUrl = token 
-        ? `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/crypto-hawk/user-socket/orders` 
+    const urlSocket = token 
+        ? `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/crypto-hawk/user-socket/positions` 
         : null;
 
-    const { lastJsonMessage } = useWebSocket<UserSocketInfo>(socketUrl, {
+    const { lastJsonMessage } = useWebSocket(urlSocket, {
             queryParams: {
                 token,
                 market,
                 environment
             },
-            onOpen: () => console.log('Connected to User Socket'),
+            onOpen: () => console.log('Connected to Position Socket'),
             onMessage: (e: MessageEvent<any>) => {
                 const parsed = JSON.parse(e.data);
 
                 // if (parsed.event_type !== 'ORDER_TRADE_UPDATE') return;
 
-                console.log(parsed);
-                const newOrder = parsed as OrderType;
-                if (!newOrder?.id_order) return;
+                // console.log(parsed);
+                const newPosition = parsed as PositionType;
+                if (!newPosition?.id_position) return;
 
-                setOrders((prevOrders) => {
-                    const exists = prevOrders.some((order) => order.id_order === newOrder.id_order);
+                setPositions((prevOrders) => {
+                    const exists = prevOrders.some((order) => order.id_position === newPosition.id_position);
 
                     if (exists) {
                     // Atualiza a ordem existente
                         return prevOrders.map((order) =>
-                            order.id_order === newOrder.id_order ? { ...order, ...newOrder } : order
+                            order.id_position === newPosition.id_position ? { ...order, ...newPosition } : order
                         );
                     } else {
                         // Adiciona nova ordem
-                        return [...prevOrders, newOrder];
+                        return [...prevOrders, newPosition];
                     }
                 });
             },
@@ -78,13 +69,10 @@ export default function OrderStatusListner( { market, environment, setOrders } :
             },
             shouldReconnect: (closeEvent) => true,
             reconnectInterval: 3000
-
-        }
-    );
-
+    
+        });
 
     return null;
-
 }
 
 

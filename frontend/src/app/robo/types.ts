@@ -1,5 +1,19 @@
 
 
+export interface MiniTickerType {
+
+    change_24h: number;
+    close: number;
+    open:number;
+    high:number;
+    low:number;
+    pct_change_24h:number;
+    negociacoes:number;
+    timestamp: string;
+    symbol: string;
+}
+
+
 
 export interface SymbolAnalysisType {
 

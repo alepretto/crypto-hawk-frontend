@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 
-import { CandleChartType } from "./types";
+import { CandleChartType, MiniTickerType } from "./types";
 
 import CandleChartComponent from "./components/candleChart";
 
@@ -11,6 +11,9 @@ import { ChartControls } from './components/menuBot'
 import { TradeOrderForm } from "./components/orderForm";
 import { OpenOrdersLog } from "./components/orderList";
 import { OpenPositionsLog } from "./components/positionsList";
+import MiniTickerComponent from "./components/miniTicker";
+
+
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -28,6 +31,7 @@ export default function RoboPage() {
     const [symbol, setSymbol] = useState('');
     const [symbolOptions, setSymbolOptions] = useState(['BTCUSDT', 'ETHUSDT']);
 
+    const [miniTicker, setMiniTicker] = useState<MiniTickerType>({ close: 0, change_24h: 0, high: 0, low: 0, negociacoes: 0, open: 0, pct_change_24h: 0, symbol: '', timestamp: '"2020-01-01T00:00:00.000000-03:00"' });
 
     const [baseAsset, setBaseAsset] = useState<AssestBalanceType | null>(null);
     const [quoteAsset, setQuoteAsset] = useState<AssestBalanceType | null>(null);
@@ -78,24 +82,43 @@ export default function RoboPage() {
             <Toaster position="top-right"/>
 
 
-            <div className="flex justify-between items-start h-30 ">
+            <div className="flex justify-between h-30 ">
 
-                <div className="flex h-full items-end">
-                    <div className="mb-6">
-                        <div className="flex items-center gap-2">
-                            {/* <TrendingUp className="w-5 h-5 text-green-600" /> */}
-                            <h1 className="text-3xl font-bold text-foreground">
+
+                <div className="flex h-full w-full ml-6 gap-20">
+
+                    <div className="flex flex-col items-start justify-center">
+
+                        <div className="flex items-center gap-3">
+                            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
                                 {symbol} - {interval}
                             </h1>
                         </div>
-                        <p className="text-mb text-muted-foreground">
+                        <p className="text-sm text-muted-foreground mt-1">
                             Dados em tempo real obtidos via API da Binance
                         </p>
                     </div>
 
+                    <div className="flex items-center justify-center justify-center h-full">
+                        {miniTicker && (
+                            // <span className="text-xl md:text-2xl font-semibold text-green-500">
+                            // U$ {miniTicker.close.toLocaleString('pt-BR')}
+                            // </span>
+                            <MiniTickerComponent 
+                                symbol={symbol}
+                                market={market}
+                                environment={environment}
+                                miniTicker={miniTicker}
+                                setMiniTicker={setMiniTicker}
+                            />
+                        )}
+                    </div>
+
                 </div>
 
-                <div className="flex items-center h-full">
+                
+
+                <div className="flex items-center justify-center h-full w-110">
                     <Image
                         src="/logo-transparante-2.png"
                         alt="AlgoQuant Logo"
@@ -157,7 +180,14 @@ export default function RoboPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                <OpenPositionsLog />
+                <OpenPositionsLog 
+                    symbol={symbol}
+                    environment={environment}
+                    market={market}
+                    symbolPrice={miniTicker.close}
+                />
+
+
                 <OpenOrdersLog
                     symbol={symbol}
                     market={market}
