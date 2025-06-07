@@ -118,7 +118,7 @@ export default function RoboPage() {
 
                 
 
-                <div className="flex items-center justify-center h-full w-110">
+                <div className="flex items-center justify-center h-full w-150">
                     <Image
                         src="/logo-transparante-2.png"
                         alt="AlgoQuant Logo"
