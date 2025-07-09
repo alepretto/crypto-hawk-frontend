@@ -99,7 +99,7 @@ export default function RoboPage() {
                         </p>
                     </div>
 
-                    <div className="flex items-center justify-center justify-center h-full">
+                    <div className="flex items-center justify-center h-full">
                         {miniTicker && (
                             // <span className="text-xl md:text-2xl font-semibold text-green-500">
                             // U$ {miniTicker.close.toLocaleString('pt-BR')}

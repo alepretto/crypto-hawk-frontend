@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
 
     const res = result.status === 404 
         ? NextResponse.json({ positions: [] }, { status: 200}) 
-        : NextResponse.json({ positions: result.data }, { status: result.status});
+        : NextResponse.json({ positions: result.data.positions }, { status: result.status});
     
     if (result.refreshed && result.token) {
         res.cookies.set("auth-token", result.token, {

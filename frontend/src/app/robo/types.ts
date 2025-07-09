@@ -58,8 +58,8 @@ export interface CandleChartProps {
 export interface CandleInfo {
     symbol: string;
     interval: string;
-    open_time: number;
-    close_time: number;
+    open_time: string;
+    close_time: string;
     open: number;
     high: number;
     low: number;

@@ -5,7 +5,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import useWebSocket from "react-use-websocket";
 
-import { SymbolAnalysisType, InfoMessage } from "../../types";
+import { SymbolAnalysisType, InfoMessage, CandleInfo } from "../../types";
 
 import CandleChart from "./chart";
 
@@ -48,9 +48,9 @@ export default function CandleChartComponent({ symbol, interval, market, environ
     }, [symbol, interval, market, environment]);
 
 
-    const socketUrl = loading ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/binance/klines`;
-
-    const { lastJsonMessage } = useWebSocket<InfoMessage>(socketUrl, {
+    const socketUrl = loading ? null : `${process.env.NEXT_PUBLIC_API_WS_URL}/api/ws/crypto-hawk/klines-socket/futures`;
+    
+    const { lastJsonMessage } = useWebSocket<CandleInfo>(socketUrl, {
         queryParams: {
             market,
             environment,
@@ -59,18 +59,18 @@ export default function CandleChartComponent({ symbol, interval, market, environ
         },
         onOpen: () => console.log('Connected to Klines'),
         onMessage: () => {
-            if (lastJsonMessage && lastJsonMessage.info) {
+            if (lastJsonMessage) {
 
-                const info = lastJsonMessage.info;
-
+                const candle = lastJsonMessage;
+                
                 const newCandle = {
-                    open_time: info.candle.open_time,
-                    close_time: info.candle.close_time,
-                    open: info.candle.open,
-                    high: info.candle.high,
-                    low: info.candle.low,
-                    close: info.candle.close,
-                    volume: info.candle.volume,
+                    open_time: Math.floor(new Date(candle.open_time).getTime() /1000),
+                    close_time: Math.floor(new Date(candle.close_time).getTime() /1000),
+                    open: candle.open,
+                    high: candle.high,
+                    low: candle.low,
+                    close: candle.close,
+                    volume: candle.volume,
                 }
                 // console.log(newCandle)
                 setCandles((prevCandles) => {

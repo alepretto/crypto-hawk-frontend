@@ -5,7 +5,7 @@ import { Sidebar } from './components/sidebar';
 import { useAuth } from '@/context/authContext';
 import { ReactNode } from 'react';
 
-import { Bot, LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { Bot, LayoutDashboard, LogOut, Settings, CircleParking, Activity } from "lucide-react";
 
 import { SidebarProvider } from '@/context/sidebarContext';
 
@@ -15,14 +15,24 @@ export default function RoboLayout({ children }: { children: ReactNode}) {
 
     const menuItems = [
         {
+            icon: LayoutDashboard,
+            name: 'Dashboard',
+            href: '/robo/dashboard'
+        },
+        {
             icon: Bot,
             name: 'Bot',
             href: '/robo'
         },
         {
-            icon: LayoutDashboard,
-            name: 'Dashboard',
-            href: '/robo/dashboard'
+            icon: Activity,
+            name: 'Live Session',
+            href: '/robo/live-session'
+        },
+        {
+            icon: CircleParking,
+            name: 'backtest',
+            href: '/robo/backtest'
         },
         {
             icon: Settings,

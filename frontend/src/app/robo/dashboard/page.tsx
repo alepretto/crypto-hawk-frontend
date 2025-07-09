@@ -33,34 +33,7 @@ export default function RoboDashPage() {
     }, []);
 
 
-    const socketUrl = token 
-        ? `${process.env.NEXT_PUBLIC_API_WS_URL}/user-socket` 
-        : null;
-
-    const socketOptions = token ? {
-        onOpen: () => console.log('Connected to App WS Server'),
-        onMessage: (e: MessageEvent<any>) => {
-            const parsed = JSON.parse(e.data);
-            if (parsed?.userSocker) {
-                console.log(parsed.userSocker);
-            }
-        },
-        queryParams: {
-            token,
-            market: 'futures',
-            environment: 'testnet'
-        },
-        onError: (err: Event) => {
-            console.error('WebSocket error:', err);
-        },
-        shouldReconnect: () => true,
-        reconnectInterval: 3000
-    } : undefined;
-
-    const { lastJsonMessage } = useWebSocket<UserSocketInfo>(
-        socketUrl,
-        socketOptions
-    );
+    
 
     return (
         <div>
