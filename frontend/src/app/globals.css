@@ -50,8 +50,17 @@ html, body {
   overflow: hidden;
 }
 
+
+/* Em seu arquivo src/app/globals.css */
+
+html {
+  /* scrollbar-gutter: stable; */
+}
+
+
 body {
   font-family: 'Inter', Helvetica, sans-serif;
+  /* overflow-y: scroll; */
 }
 
 :root {

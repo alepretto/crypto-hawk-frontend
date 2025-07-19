@@ -22,7 +22,7 @@ export interface PositionType {
     close_time: string | null,
     entry_price: number  | null
     close_price: number  | null
-    pnl: number  | null
+    pnl: number | null
     strategy: string
     created_at: string
 }
@@ -189,7 +189,7 @@ export function OpenPositionsLog({ symbol, market, environment, symbolPrice }: P
                                 <TableCell className="text-center">{position.entry_price ? position.entry_price.toLocaleString('pt-BR'): 0}</TableCell>
                                 <TableCell className="text-center">{position.status}</TableCell>
                                 <TableCell className="text-center">
-                                    <span className={position.pnl  && position.pnl > 0 ? "text-green-400 font-bold font-bold" : "text-red-400 font-bold"}>
+                                    <span className={position.pnl  && position.pnl > 0 ? "text-green-400 font-bold" : "text-red-400 font-bold"}>
                                         
                                         {position.pnl?.toLocaleString('pt-BR') || 0} 
                                     </span>

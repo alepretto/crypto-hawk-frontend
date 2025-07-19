@@ -1,0 +1,53 @@
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { UTCTimestamp } from "lightweight-charts";
+import ReturnLineChart from "./chart"
+
+import { BacktestFullType } from "../../../types"
+
+interface ComponentProps {
+    backtest: BacktestFullType
+}
+
+
+export default function ReturnChart({ backtest }: ComponentProps) {
+    
+    if (!backtest.trades_summary) {
+        return (
+            <div>
+                <h1> Sem trades </h1>
+            </div>
+        )
+    }
+    
+
+    const initialPoint = {
+        time: (new Date(backtest.trades_summary[0].entry_time).getTime() / 1000) as UTCTimestamp,
+        value: 0 //
+    }
+    const tradesPoints = backtest.trades_summary.map(trade => ({
+        time: new Date(trade.exit_time).getTime() / 1000 as UTCTimestamp,
+        value: (trade.return_accum - 1) * 100
+    }))
+
+    const dataChart = [initialPoint, ...tradesPoints]
+    
+    return (
+        <div>
+            <Card>
+                
+                <CardHeader>
+                    <CardTitle>Retorno Acumulado</CardTitle>
+                    <CardDescription>Evolução do retorno percentual ao longo dos trades</CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <div className="w-full h-[400px]">
+                        <ReturnLineChart 
+                            data={dataChart}
+                        />
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    )
+}

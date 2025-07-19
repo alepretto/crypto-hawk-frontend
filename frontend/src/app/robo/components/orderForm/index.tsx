@@ -25,17 +25,17 @@ import axios from "axios"
 
 
 const formSchema = z.object({
-  asset: z.string().optional(),
-  orderType: z.string().min(1, {
-    message: "Por favor selecione um tipo de ordem.",
-  }),
-  quantity: z.string().min(1, {
-    message: "Por favor insira uma quantidade.",
-  }),
-  price: z.string().optional(),
-  stopLoss: z.string().optional(),
-  takeProfit: z.string().optional(),
-  leverage: z.string().optional(),
+    asset: z.string().optional(),
+    orderType: z.string().min(1, {
+        message: "Por favor selecione um tipo de ordem.",
+    }),
+    quantity: z.string().min(1, {
+        message: "Por favor insira uma quantidade.",
+    }),
+    price: z.string().optional(),
+    stopLoss: z.string().optional(),
+    takeProfit: z.string().optional(),
+    leverage: z.string().optional(),
 })
 
 interface FormFieldsType {
