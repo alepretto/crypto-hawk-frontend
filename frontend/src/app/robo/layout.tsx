@@ -5,10 +5,10 @@ import { Sidebar } from './components/sidebar';
 import { useAuth } from '@/context/authContext';
 import { ReactNode } from 'react';
 
-import { Bot, LayoutDashboard, LogOut, Settings, CircleParking, Activity } from "lucide-react";
+import { CandlestickChart, LayoutDashboard, LogOut, Settings, FileSearch, Bot } from "lucide-react";
 
 import { SidebarProvider } from '@/context/sidebarContext';
-
+// Receipt
 
 export default function RoboLayout({ children }: { children: ReactNode}) {
     const { user, logout } = useAuth();
@@ -20,17 +20,17 @@ export default function RoboLayout({ children }: { children: ReactNode}) {
             href: '/robo/dashboard'
         },
         {
-            icon: Bot,
+            icon: CandlestickChart,
             name: 'Bot',
-            href: '/robo'
+            href: '/robo/broker'
         },
         {
-            icon: Activity,
+            icon: Bot,
             name: 'Live Session',
             href: '/robo/live-session'
         },
         {
-            icon: CircleParking,
+            icon: FileSearch,
             name: 'backtest',
             href: '/robo/backtest'
         },

@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     const result = await authenticatedRequest(`/api/v1/backtest/${idBacktest}`, 'get')
 
     const res = result.status === 404
-        ? NextResponse.json({ backtest: null }, { status: result.status })
+        ? NextResponse.json({ backtest: null }, { status: 200 })
         : NextResponse.json({ backtest: result.data }, { status: result.status });
 
 

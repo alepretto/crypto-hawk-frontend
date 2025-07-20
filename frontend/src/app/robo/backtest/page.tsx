@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Play, Search } from "lucide-react"
+import { FileSearch } from "lucide-react"
 
 import ListBacktest from "./components/listBacktest"
 import { BacktestType } from "./types"
 import axios from "axios"
-import { symbol } from "zod"
 
 
 
@@ -67,13 +65,39 @@ export default function Backtest () {
     return (
         <div className="space-y-4">
 
+
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Backtests</h1>
-                <Button>
-                <Play className="mr-2 h-4 w-4" />
-                    Novo Backtest
-                </Button>
+                <div>
+                    <h1 className="text-4xl font-bold flex items-center gap-2">
+                        <FileSearch className="h-6 w-6" />
+                        Backtest
+                    </h1>
+                    {/* <p className="text-muted-foreground">{currentTime}</p> */}
+                </div>
+
+                <div className="flex items-center justify-center h-30 w-100 ">
+                    <Image
+                        src="/logo-transparante-2.png"
+                        alt="AlgoQuant Logo"
+                        width={290}
+                        height={10}
+                    />
+                </div>
+                
             </div>
+
+            {/* <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-bold">Backtests</h1>
+                
+                <div className="flex items-center justify-center h-30 w-100 ">
+                    <Image
+                        src="/logo-transparante-2.png"
+                        alt="AlgoQuant Logo"
+                        width={290}
+                        height={10}
+                    />
+                </div>
+            </div> */}
 
             {/* Filters */}
             <Card>

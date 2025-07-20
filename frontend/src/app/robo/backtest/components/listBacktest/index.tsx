@@ -4,6 +4,7 @@ import { Eye, TrendingDown, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import { BacktestType } from "../../types"
+import { formatDate } from "@/lib/utils"
 
 
 interface ComponentProps {
@@ -15,10 +16,6 @@ interface ComponentProps {
 export default function ListBacktest({ backtests }: ComponentProps) {
 
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString)
-        return date.toLocaleDateString("pt-BR")
-    }
 
     const formatCurrency = (value: number, decimals = 2) => {
         return value.toFixed(decimals)
@@ -62,10 +59,8 @@ export default function ListBacktest({ backtests }: ComponentProps) {
                                                 <TrendingUp className="h-4 w-4 text-green-500" />
                                                 ) : (
                                                 <TrendingDown className="h-4 w-4 text-red-500" />
-                                                )}
-                                                <span
-                                                className={`font-mono ${backtest.metrics.return_pct >= 0 ? "text-green-500" : "text-red-500"}`}
-                                                >
+                                            )}
+                                            <span className={`font-mono ${backtest.metrics.return_pct >= 0 ? "text-green-500" : "text-red-500"}`} >
                                                 {backtest.metrics.return_pct >= 0 ? "+" : ""}
                                                 {formatCurrency(backtest.metrics.return_pct * 100)}%
                                             </span>
@@ -97,7 +92,7 @@ export default function ListBacktest({ backtests }: ComponentProps) {
                                 </TableCell>
                                 <TableCell className="text-center">
                                     {backtest.metrics ? (
-                                        <span className="font-mono">{backtest.metrics.win_trades}</span>
+                                        <span className="font-mono">{backtest.metrics.total_trades}</span>
                                     ) : (
                                         <span className="text-muted-foreground">-</span>
                                     )}

@@ -10,22 +10,8 @@ import axios from "axios"
 import PositionStatusListners from "./positionStatusListner"
 import { formatDate } from "@/lib/utils"
 
-export interface PositionType {
-    id_position: number
-    id_user: number
-    id_setting: number
-    symbol: string
-    status: string
-    side: string
-    qty: number
-    entry_time: string | null,
-    close_time: string | null,
-    entry_price: number  | null
-    close_price: number  | null
-    pnl: number | null
-    strategy: string
-    created_at: string
-}
+import { PositionType } from "../../types"
+
 
 interface PositionLogProps {
     symbol: string;

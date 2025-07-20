@@ -39,7 +39,8 @@ export default function ListTrades({ backtest }: ComponentProps) {
                     <Table>
                     <TableHeader>
                         <TableRow>
-                        <TableHead className="w-[15%] text-center font-bold text-[1.2rem]">Data</TableHead>
+                        <TableHead className="w-[12%] text-center font-bold text-[1.2rem]">Data Entrada</TableHead>
+                        <TableHead className="w-[12%] text-center font-bold text-[1.2rem]">Data Saída</TableHead>
                         <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">Lado</TableHead>
                         <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">Preço Entrada</TableHead>
                         <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">Preço Saída</TableHead>
@@ -53,6 +54,7 @@ export default function ListTrades({ backtest }: ComponentProps) {
                         {backtest.trades_summary.map((trade) => (
                         <TableRow key={trade.id_backtest_trade_summary}>
                             <TableCell className="font-mono text-sm text-center">{formatDate(trade.entry_time)}</TableCell>
+                            <TableCell className="font-mono text-sm text-center">{formatDate(trade.exit_time)}</TableCell>
                             <TableCell className="text-center">
                                 <Badge variant={trade.side === "BUY" ? "default" : "secondary"}>
                                     {trade.side === "BUY" ? "Compra" : "Venda"}

@@ -3,11 +3,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { formatDate } from "@/lib/utils"
+import { formatDate, capitalizarFrase } from "@/lib/utils"
 
 import { useState } from "react";
 import { LiveSessionType } from "../../types";
 import { ReturnSessionDisplay } from "./returnStrategy"
+import DurationField from "./durationField";
 
 
 interface ComponentProps {
@@ -57,15 +58,26 @@ export default function ListSessionComponent({ liveSessions, showOnlyRunning, se
                             <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">% P&L</TableHead>
                             <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">Trades</TableHead>
                             <TableHead className="w-[10%] text-center font-bold text-[1.2rem]">Win Rate</TableHead>
-                            <TableHead className="w-[20%] text-center font-bold text-[1.2rem]">Inicio</TableHead>
+                            <TableHead className="w-[20%] text-center font-bold text-[1.2rem]">Duração</TableHead>
                         </TableRow>
                     </TableHeader>
 
                     <TableBody >
 
-                        {liveSessions.map((session) => (
-                            <TableRow key={session.id_live_session}>
-                                <TableCell className="text-center font-medium">{session.strategy_name}</TableCell>
+                        { liveSessions.length === 0 ? (
+
+                            <TableRow >
+                                <TableCell colSpan={8} className="py-10 text-center"> {/* Adiciona espaçamento vertical e centraliza o texto aqui */}
+                                    <p className="font-bold text-gray-500 text-xl"> {/* Usa <p>, font-bold e uma cor sutil */}
+                                        Nenhuma Live Session em aberto...
+                                    </p>
+                                </TableCell>
+                            </TableRow>
+                        ) : 
+                        
+                        liveSessions.map((session) => (
+                            <TableRow key={session.id_live_session} className="text-[1rem]">
+                                <TableCell className="text-center  py-4">{capitalizarFrase(session.strategy_name.replace('_', ' '))}</TableCell>
                                 <TableCell className="text-center font-mono">{session.symbol}</TableCell>
                                 <TableCell className="text-center">
                                     <Badge variant={session.status === "running" ? "default" : "secondary"}>
@@ -86,7 +98,12 @@ export default function ListSessionComponent({ liveSessions, showOnlyRunning, se
                                 </TableCell>
                                 <TableCell className="text-center font-mono">{session?.metrics? session?.metrics.total_trades : 0}</TableCell>
                                 <TableCell className="text-center font-mono">{session?.metrics? session?.metrics.win_rate * 100 : 0}%</TableCell>
-                                <TableCell className="text-center text-sm text-muted-foreground">{formatDate(session.start_time)}</TableCell>
+                                <TableCell className="text-center text-sm text-muted-foreground">
+                                    <DurationField 
+                                        start_time={session.start_time}
+                                        end_time={session.end_time}
+                                    />
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

@@ -80,9 +80,9 @@ export function formatarDuracaoDinamica(totalSegundos: number) {
     if (minutos > 0) {
         parts.push(`${minutos} ${minutos === 1 ? 'minuto' : 'minutos'}`);
     }
-    if (segundos > 0) {
-        parts.push(`${segundos} ${segundos === 1 ? 'segundo' : 'segundos'}`);
-    }
+    // if (segundos > 0) {
+    //     parts.push(`${segundos} ${segundos === 1 ? 'segundo' : 'segundos'}`);
+    // }
 
     // 4. Formata a string de saída de forma inteligente
     if (parts.length === 1) {

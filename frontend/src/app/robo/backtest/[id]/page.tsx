@@ -108,7 +108,7 @@ export default function BacktestDetailPage() {
             </p>
             </div>
             <div className="ml-auto">
-            <Badge variant="default">Concluído</Badge>
+                <Badge variant="default">Concluído</Badge>
             </div>
         </div>
 
@@ -124,9 +124,9 @@ export default function BacktestDetailPage() {
 
         <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
-            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
-            <TabsTrigger value="trades">Histórico de Trades</TabsTrigger>
-            <TabsTrigger value="parameters">Parâmetros</TabsTrigger>
+                <TabsTrigger className="cursor-pointer" value="overview">Visão Geral</TabsTrigger>
+                <TabsTrigger className="cursor-pointer" value="trades">Histórico de Trades</TabsTrigger>
+                <TabsTrigger className="cursor-pointer" value="parameters">Parâmetros</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-4">

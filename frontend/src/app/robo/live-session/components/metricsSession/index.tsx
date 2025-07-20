@@ -3,14 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Activity, DollarSign, TrendingUp, TrendingDown } from "lucide-react"
 
 import { LiveSessionType } from "../../types"
-
+import { PositionType } from "@/app/robo/types"
 
 interface ComponentProps {
-    sessions: LiveSessionType[]
+    sessions: LiveSessionType[];
+    positions: PositionType[];
 }
 
 
-export default function MetricsSession({ sessions }: ComponentProps) {
+export default function MetricsSession({ sessions, positions }: ComponentProps) {
 
 
     const totalPnl = sessions.reduce((pnl, sessaoAtual) => {
@@ -42,12 +43,12 @@ export default function MetricsSession({ sessions }: ComponentProps) {
             <Card>
                 <CardContent className="pt-6">
                     <div className="flex items-center space-x-2">
-                        <DollarSign className="h-8 w-8 text-muted-foreground" />
+                        <DollarSign className="h-7 w-7 text-muted-foreground" />
                         <div>
                             <div className={`text-2xl font-bold font-mono ${totalPnl >= 0 ? "text-green-500" : "text-red-500"}`} >
                                 {totalPnl >= 0 ? "+" : ""}${totalPnl.toLocaleString('PT-BR')}
                             </div>
-                            <p className="text-xl text-muted-foreground">P&L Total</p>
+                            <p className="text-[1.1rem] text-muted-foreground">P&L Total</p>
                         </div>
                     </div>
                 </CardContent>
@@ -55,14 +56,12 @@ export default function MetricsSession({ sessions }: ComponentProps) {
             <Card>
                 <CardContent className="pt-6">
                     <div className="flex items-center space-x-2">
-                        <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                        <TrendingUp className="h-7 w-7 text-muted-foreground" />
                         <div>
-                            {/* <div
-                            className={`text-2xl font-bold font-mono ${sessionData.dailyPnL >= 0 ? "text-green-500" : "text-red-500"}`}
-                            >
-                            {sessionData.dailyPnL >= 0 ? "+" : ""}${formatCurrency(sessionData.dailyPnL)}
-                            </div> */}
-                            <p className="text-xs text-muted-foreground">P&L Diário</p>
+                            <div className={`text-2xl font-bold font-mono`} >
+                                {positions.length}
+                            </div>
+                            <p className="text-[1.1rem] text-muted-foreground">Posições Abertas</p>
                         </div>
                     </div>
                 </CardContent>
@@ -70,10 +69,10 @@ export default function MetricsSession({ sessions }: ComponentProps) {
             <Card>
                 <CardContent className="pt-6">
                     <div className="flex items-center space-x-2">
-                        <Activity className="h-8 w-8 text-muted-foreground" />
+                        <Activity className="h-7 w-7 text-muted-foreground" />
                         <div>
                             <div className="text-2xl font-bold">{totalTrades}</div>
-                            <p className="text-xl text-muted-foreground">Total Trades</p>
+                            <p className="text-[1.1rem] text-muted-foreground">Total Trades</p>
                         </div>
                     </div>
                 </CardContent>
@@ -82,10 +81,10 @@ export default function MetricsSession({ sessions }: ComponentProps) {
             <Card>
                 <CardContent className="pt-6">
                     <div className="flex items-center space-x-2">
-                    <TrendingUp className="h-8 w-8 text-muted-foreground" />
+                    <TrendingUp className="h-7 w-7 text-muted-foreground" />
                     <div>
                         <div className="text-2xl font-bold">{ totalTrades > 0 ? ((winTrades / totalTrades) * 100).toFixed(2) : 0 }%</div>
-                        <p className="text-xl text-muted-foreground">Win Rate</p>
+                        <p className="text-[1.1rem] text-muted-foreground">Win Rate</p>
                     </div>
                     </div>
                 </CardContent>

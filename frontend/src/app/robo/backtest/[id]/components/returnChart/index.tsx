@@ -30,6 +30,19 @@ export default function ReturnChart({ backtest }: ComponentProps) {
     }))
 
     const dataChart = [initialPoint, ...tradesPoints]
+
+    const dataChartFinal = dataChart.reduce((acc, currentPoint) => {
+        
+        const lastPoint = acc.length > 0 ? acc[acc.length - 1] : null;
+
+        if (lastPoint && currentPoint.time <= lastPoint.time) {
+            currentPoint.time = lastPoint.time + 1 as UTCTimestamp;
+        }
+
+        acc.push(currentPoint);
+        return acc;
+
+    }, [] as typeof dataChart);
     
     return (
         <div>
@@ -43,7 +56,7 @@ export default function ReturnChart({ backtest }: ComponentProps) {
                 <CardContent>
                     <div className="w-full h-[400px]">
                         <ReturnLineChart 
-                            data={dataChart}
+                            data={dataChartFinal}
                         />
                     </div>
                 </CardContent>
